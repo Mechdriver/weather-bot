@@ -36,12 +36,14 @@ def response_to_message():
     action = payload_dict['action']
 
     if (action == JOIN_ACTION):
-        message = 'Hello, ' + payload_dict['name'] + '!'
+        user_name = payload_dict['name']
+        message = f"Hello, {user_name}!"
         message_dict = {'type': 'text', 'text': message}
 
     elif (action == MESSAGE_ACTION):
         message = 'Sorry. I could not find the weather there!'
         location = parser_service.weather_find_location(payload_dict['text'])
+        coords = weather = None
 
         if (location):
             coords = gmap_service.get_coordinates(location)
@@ -49,13 +51,10 @@ def response_to_message():
         if (coords):
             weather = dark_sky_service.get_weather(coords)
 
-        #if (weather):
-        #    message = "Currently it's " + weather
+        if (weather):
+            message = f"Currently it's {weather}"
 
         message_dict = {'type': 'text', 'text': message}
-
-
-    #print(payload_dict, file=sys.stderr)
 
     response_dict['messages'].append(message_dict)
     return json.dumps(response_dict), 200, {'ContentType':'application/json'}

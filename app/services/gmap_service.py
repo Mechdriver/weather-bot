@@ -14,9 +14,8 @@ class GMapService:
         payload = {'address': location, 'key': self.api_key}
         results = requests.get(self.GEOCODE_ENDPOINT, params=payload)
 
-        gmap_dict = results.json()
-
-        if (not gmap_dict['results']):
+        if (results.status_code != 200):
             return None
 
+        gmap_dict = results.json()
         return gmap_dict['results'][0]['geometry']['location']
