@@ -12,7 +12,7 @@ MESSAGE_ACTION = 'message'
 app = Flask(__name__)
 CORS(app)
 
-parser_service = ParserService
+parser_service = ParserService()
 
 try:
     gmap_service = GMapService(os.environ.get('GMAP_KEY'))
@@ -40,12 +40,17 @@ def response_to_message():
         message_dict = {'type': 'text', 'text': message}
 
     elif (action == MESSAGE_ACTION):
-        message = "Currently it's "
-
+        message = 'Sorry. I could not find the weather there!'
         location = parser_service.weather_find_location(payload_dict['text'])
-        coords = gmap_service.get_coordinates(location)
-        weather = dark_sky_service.get_weather(coords)
-        message += ' ' + weather
+
+        if (location):
+            coords = gmap_service.get_coordinates(location)
+
+        if (coords):
+            weather = dark_sky_service.get_weather(coords)
+
+        #if (weather):
+        #    message = "Currently it's " + weather
 
         message_dict = {'type': 'text', 'text': message}
 
