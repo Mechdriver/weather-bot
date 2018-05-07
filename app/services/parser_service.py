@@ -6,7 +6,7 @@ class ParserService:
                                  "weather in (.*)",
                                  "(.*) weather$"]
 
-    def weather_find_location(self, message):
+    def find_location_for_weather(self, message):
         formatted_message = message.lower().rstrip('?:!.,;')
         for pattern in self.weather_patterns:
             match = re.match(pattern, formatted_message)

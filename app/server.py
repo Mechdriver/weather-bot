@@ -42,7 +42,7 @@ def response_to_message():
 
     elif (action == MESSAGE_ACTION):
         message = 'Sorry. I could not find the weather there!'
-        location = parser_service.weather_find_location(payload_dict['text'])
+        location = parser_service.find_location_for_weather(payload_dict['text'])
         coords = weather = None
 
         if (location):
