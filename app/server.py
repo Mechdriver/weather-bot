@@ -60,4 +60,4 @@ def response_to_message():
     return json.dumps(response_dict), 200, {'ContentType':'application/json'}
 
 if __name__=='__main__':
-    app.run(debug=True, port=9000)
+    app.run(port=9000)
